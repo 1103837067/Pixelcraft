@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Element Plus 主题变量 */
+  --el-color-white: theme('colors.white');
+  --el-color-black: theme('colors.black');
+  --el-bg-color: theme('colors.white');
+  --el-bg-color-page: #f5f7fa;
+  --el-bg-color-overlay: theme('colors.white');
+  --el-text-color-primary: theme('colors.gray.900');
+  --el-text-color-regular: theme('colors.gray.700');
+  --el-text-color-secondary: theme('colors.gray.500');
+  --el-text-color-placeholder: theme('colors.gray.400');
+  --el-border-color: theme('colors.gray.200');
+  --el-border-color-light: theme('colors.gray.100');
+  --el-border-color-lighter: theme('colors.gray.100');
+  --el-border-color-extra-light: theme('colors.gray.50');
+  --el-mask-color: rgba(0, 0, 0, 0.5);
+  --el-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  --el-box-shadow-light: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  --el-box-shadow-lighter: 0 2px 8px 0 rgba(0, 0, 0, 0.06);
+  --el-box-shadow-dark: 0 2px 16px 0 rgba(0, 0, 0, 0.08);
+
+  /* 主色调 */
+  --el-color-primary: #0ea5e9;
+  --el-color-primary-light-3: #38bdf8;
+  --el-color-primary-light-5: #7dd3fc;
+  --el-color-primary-light-7: #bae6fd;
+  --el-color-primary-light-8: #e0f2fe;
+  --el-color-primary-light-9: #f0f9ff;
+  --el-color-primary-dark-2: #0284c7;
+}
+
+.dark {
+  color-scheme: dark;
+  /* Element Plus 暗色主题变量 - 更柔和的颜色 */
+  --el-bg-color: theme('colors.gray.800');
+  --el-bg-color-page: theme('colors.gray.900');
+  --el-bg-color-overlay: theme('colors.gray.700');
+  --el-text-color-primary: theme('colors.gray.200');
+  --el-text-color-regular: theme('colors.gray.300');
+  --el-text-color-secondary: theme('colors.gray.400');
+  --el-text-color-placeholder: theme('colors.gray.500');
+  --el-border-color: theme('colors.gray.600');
+  --el-border-color-light: theme('colors.gray.700');
+  --el-border-color-lighter: theme('colors.gray.700');
+  --el-border-color-extra-light: theme('colors.gray.800');
+  --el-mask-color: rgba(0, 0, 0, 0.6);
+  --el-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+  --el-box-shadow-light: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  --el-box-shadow-lighter: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+  --el-box-shadow-dark: 0 2px 16px 0 rgba(0, 0, 0, 0.25);
+
+  /* 主色调 */
+  --el-color-primary: #38bdf8;
+  --el-color-primary-light-3: #7dd3fc;
+  --el-color-primary-light-5: #bae6fd;
+  --el-color-primary-light-7: #e0f2fe;
+  --el-color-primary-light-8: #f0f9ff;
+  --el-color-primary-light-9: #f0f9ff;
+  --el-color-primary-dark-2: #0ea5e9;
+}
+
+body {
+  @apply antialiased bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+#app {
+  @apply min-h-screen;
+}
+
+/* Element Plus 组件暗色模式优化 */
+.dark {
+  .el-button {
+    --el-button-bg-color: theme('colors.gray.700');
+    --el-button-border-color: theme('colors.gray.600');
+    --el-button-hover-bg-color: theme('colors.gray.600');
+    --el-button-hover-border-color: theme('colors.gray.500');
+    --el-button-active-bg-color: theme('colors.gray.500');
+    --el-button-active-border-color: theme('colors.gray.400');
+  }
+
+  .el-input__wrapper {
+    background-color: var(--el-bg-color-overlay);
+    box-shadow: 0 0 0 1px var(--el-border-color) inset;
+  }
+
+  .el-select-dropdown {
+    background-color: var(--el-bg-color-overlay);
+    border-color: var(--el-border-color);
+  }
+
+  .el-select-dropdown__item {
+    color: var(--el-text-color-regular);
+
+    &.hover,
+    &:hover {
+      background-color: var(--el-border-color-light);
+    }
+
+    &.selected {
+      background-color: var(--el-color-primary-light-9);
+      color: var(--el-color-primary);
+    }
+  }
+
+  .el-form-item__label {
+    color: var(--el-text-color-regular);
+  }
+} 

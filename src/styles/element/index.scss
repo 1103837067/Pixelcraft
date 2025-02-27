@@ -1,0 +1,49 @@
+// 导入 Element Plus 的基础样式
+@use "element-plus/theme-chalk/src/index.scss" as *;
+
+// 导入 Element Plus 的暗色主题
+@use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
+
+// 只自定义主色调
+:root {
+  --el-color-primary: #0ea5e9;
+  --el-color-primary-light-3: #38bdf8;
+  --el-color-primary-light-5: #7dd3fc;
+  --el-color-primary-light-7: #bae6fd;
+  --el-color-primary-light-8: #e0f2fe;
+  --el-color-primary-light-9: #f0f9ff;
+  --el-color-primary-dark-2: #0284c7;
+}
+
+// 布局相关样式
+html {
+  height: 100%;
+  overflow-y: hidden;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+// 修复布局滚动问题
+.el-container {
+  height: 100%;
+  
+  .el-aside {
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .el-main {
+    height: 100%;
+    overflow-y: auto;
+  }
+} 
