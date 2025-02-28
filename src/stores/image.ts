@@ -93,9 +93,6 @@ export const useImageStore = defineStore('image', () => {
         const fileName = file.name.substring(0, file.name.lastIndexOf('.'))
         const maxSize = Math.max(img.width, img.height)
         
-        // 为每个原文件创建一个文件夹
-        const fileFolder = zip.folder(fileName)!
-
         // 收集被跳过的尺寸
         const skippedSizes = config.sizes.filter(size => size > maxSize)
         if (skippedSizes.length > 0) {
@@ -110,65 +107,46 @@ export const useImageStore = defineStore('image', () => {
         const validSizes = config.sizes.filter(size => size <= maxSize)
 
         for (const format of config.formats) {
-          try {
-            // 在原文件文件夹下创建格式文件夹
-            const formatFolder = fileFolder.folder(format)!
+          for (const size of validSizes) {
+            try {
+              // 计算目标尺寸
+              const { targetWidth, targetHeight } = calculateTargetSize(img, size)
 
-            for (const size of validSizes) {
-              try {
-                // 计算目标尺寸
-                const { targetWidth, targetHeight } = calculateTargetSize(img, size)
+              // 处理图片
+              const blob = await processWithCanvas(img, {
+                width: targetWidth,
+                height: targetHeight,
+                format
+              })
 
-                // 处理图片
-                const blob = await processWithCanvas(img, {
-                  width: targetWidth,
-                  height: targetHeight,
-                  format
-                })
-
-                const result: ProcessedImage = {
-                  url: URL.createObjectURL(blob),
-                  size: blob.size,
-                  type: blob.type,
-                  format,
-                  width: targetWidth,
-                  height: targetHeight,
-                  originalIndex: fileIndex
-                }
-                results.push(result)
-                
-                // 添加到对应的格式文件夹中
-                const outputName = `${size}px_${targetWidth}x${targetHeight}.${format}`
-                formatFolder.file(outputName, blob)
-                totalExports++
-              } catch (error) {
-                console.error('处理图片失败:', error)
-                results.push({
-                  url: '',
-                  size: 0,
-                  type: `image/${format}`,
-                  format,
-                  width: size,
-                  height: size,
-                  error: error instanceof Error ? error.message : '处理失败',
-                  originalIndex: fileIndex
-                })
+              const result: ProcessedImage = {
+                url: URL.createObjectURL(blob),
+                size: blob.size,
+                type: blob.type,
+                format,
+                width: targetWidth,
+                height: targetHeight,
+                originalIndex: fileIndex
               }
-              completedTasks++
-              updateProgress(completedTasks, totalTasks)
+              results.push(result)
+              
+              // 直接添加到 zip 根目录
+              const outputName = `${fileName}_${size}px_${targetWidth}x${targetHeight}.${format}`
+              zip.file(outputName, blob)
+              totalExports++
+            } catch (error) {
+              console.error('处理图片失败:', error)
+              results.push({
+                url: '',
+                size: 0,
+                type: `image/${format}`,
+                format,
+                width: size,
+                height: size,
+                error: error instanceof Error ? error.message : '处理失败',
+                originalIndex: fileIndex
+              })
             }
-          } catch (error) {
-            console.error('格式转换失败:', error)
-            results.push({
-              url: '',
-              size: 0,
-              type: `image/${format}`,
-              format,
-              width: 0,
-              height: 0,
-              error: error instanceof Error ? error.message : '格式转换失败',
-              originalIndex: fileIndex
-            })
             completedTasks++
             updateProgress(completedTasks, totalTasks)
           }
